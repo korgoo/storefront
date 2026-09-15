@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/native-select";
 import { type CountryWithMarket, useStore } from "@/contexts/StoreContext";
 import { useCountrySwitch } from "@/hooks/useCountrySwitch";
+import { getAssetBasePath } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
 interface RegionPreferencesProps {
@@ -44,7 +45,7 @@ function CountryFlag({ country, className, sizes }: CountryFlagProps) {
       className={cn("relative inline-block overflow-hidden", className)}
     >
       <Image
-        src={`/flags/1x1/${country.toLowerCase()}.svg`}
+        src={`${getAssetBasePath()}/flags/1x1/${country.toLowerCase()}.svg`}
         alt=""
         fill
         sizes={sizes}

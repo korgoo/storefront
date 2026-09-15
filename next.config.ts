@@ -45,6 +45,9 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["shop.lvh.me", "*.trycloudflare.com", "192.168.33.13"],
   env: {
     NEXT_PUBLIC_SENTRY_DSN: process.env.SENTRY_DSN || "",
+    // Mirrors `basePath` above for client code that references a `public/`
+    // asset by literal path — see src/lib/store.ts's getAssetBasePath().
+    NEXT_PUBLIC_BASE_PATH: process.env.NEXT_BASE_PATH || "",
   },
   transpilePackages: ["@spree/sdk"],
   reactCompiler: true,

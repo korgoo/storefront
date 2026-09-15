@@ -9,7 +9,7 @@ import { CartButton } from "@/components/layout/CartButton";
 import { SearchToggle } from "@/components/layout/SearchToggle";
 import { Button } from "@/components/ui/button";
 import { isWholesaleEnabled } from "@/lib/spree";
-import { getStoreName } from "@/lib/store";
+import { getAssetBasePath, getStoreName } from "@/lib/store";
 
 const LazyMobileMenu = dynamic(
   () =>
@@ -74,7 +74,7 @@ export async function Header({
       center={
         <Link href={basePath || "/"} className="flex items-center min-w-0">
           <Image
-            src="/spree.png"
+            src={`${getAssetBasePath()}/spree.png`}
             alt={storeName}
             width={90}
             height={32}
