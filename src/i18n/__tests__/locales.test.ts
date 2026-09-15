@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   DEFAULT_LOCALE,
+  loadMessages,
   resolveSupportedLocale,
   SUPPORTED_LOCALES,
 } from "@/i18n/locales";
@@ -16,6 +17,13 @@ describe("locale configuration", () => {
     expect(resolveSupportedLocale("EN")).toBe("en");
     expect(resolveSupportedLocale("it")).toBeUndefined();
     expect(SUPPORTED_LOCALES).toContain(DEFAULT_LOCALE);
+  });
+
+  it("registers the Russian bundle Korgoo's storefront defaults to", async () => {
+    expect(resolveSupportedLocale("ru")).toBe("ru");
+
+    const messages = await loadMessages("ru");
+    expect(messages.common.total).toBeTruthy();
   });
 
   it("canonicalizes BCP 47 and Rails-style locale codes", () => {

@@ -37,6 +37,11 @@ function spreeImagePatterns(): RemotePattern[] {
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  // Set only in local dev (frontend/vite.config.ts proxies `/store` to this
+  // app on that assumption). Left unset in production so store.korgoo.kg
+  // serves from `/` — the nginx vhost's `/_next/static/` location block is
+  // written for that, and changing it would break asset URLs.
+  basePath: process.env.NEXT_BASE_PATH || undefined,
   allowedDevOrigins: ["shop.lvh.me", "*.trycloudflare.com", "192.168.33.13"],
   env: {
     NEXT_PUBLIC_SENTRY_DSN: process.env.SENTRY_DSN || "",
