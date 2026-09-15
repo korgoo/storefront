@@ -1,0 +1,21 @@
+Vendored from https://github.com/spree/storefront
+
+Pinned commit: e1b2cc76335fe9a419afb090db5ef5da61432bab
+Commit date:   2026-07-29 07:57:53 +0200
+Commit title:  Upgrades @spree/sdk to 1.2.1 (#206)
+
+This directory is a vendored copy, not a submodule. It is patched for
+Korgoo (Russian locale, branding, base path) so it cannot track upstream
+with a plain `git pull`. To refresh: diff this tree against a fresh clone
+at a newer upstream commit, reapply the Korgoo patches, and update the SHA
+above.
+
+Korgoo patches on top of the pinned commit:
+- Demo-only "Fork on GitHub" / "Quickstart guide" / "Learn more about Spree
+  Commerce" CTAs removed from the hero and footer (issue #131). Do not
+  reapply these from upstream.
+- Spree wordmark (`public/spree.png`) replaced with `public/korgoo-logo.svg`
+  in the header and checkout header.
+- Footer colophon no longer attributes "Powered by Spree Commerce".
+- `public/social-image.webp` and `src/app/favicon.ico` replaced with
+  Korgoo-branded art.

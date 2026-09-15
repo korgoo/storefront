@@ -74,7 +74,7 @@ export async function Header({
       center={
         <Link href={basePath || "/"} className="flex items-center min-w-0">
           <Image
-            src={`${getAssetBasePath()}/spree.png`}
+            src={`${getAssetBasePath()}/korgoo-logo.svg`}
             alt={storeName}
             width={90}
             height={32}
