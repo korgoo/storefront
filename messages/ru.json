@@ -54,9 +54,6 @@
   },
   "footer": {
     "description": "Магазин Korgoo — оборудование и услуги безопасности.",
-    "forkOnGithub": "Форкнуть этот магазин на GitHub",
-    "quickstartGuide": "Быстрый старт",
-    "learnMore": "Подробнее о Spree Commerce",
     "shop": "Магазин",
     "allProducts": "Все товары",
     "categories": "Категории",
@@ -65,16 +62,13 @@
     "orderHistory": "История заказов",
     "cart": "Корзина",
     "policies": "Правила",
-    "poweredBy": "Работает на",
-    "copyright": "© {year} {storeName}. Работает на Spree Commerce.",
+    "rights": "Все права защищены.",
     "wholesale": "Оптовые продажи"
   },
   "home": {
     "welcome": "Магазин {storeName}",
     "heroDescription": "Каталог оборудования и услуг безопасности Korgoo: трекеры, GPS-датчики, шлюзы и установка под ключ.",
     "shopNow": "В каталог",
-    "forkOnGithub": "Форкнуть на GitHub",
-    "quickstartGuide": "Быстрый старт",
     "featuredProducts": "Популярные товары",
     "viewAll": "Смотреть все",
     "qualityProducts": "Проверенное оборудование",

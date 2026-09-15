@@ -26,6 +26,19 @@ describe("locale configuration", () => {
     expect(messages.common.total).toBeTruthy();
   });
 
+  it("drops the Spree demo-CTA keys from the Russian bundle", async () => {
+    const messages = await loadMessages("ru");
+
+    expect(messages.footer.rights).toBeTruthy();
+    expect(
+      "forkOnGithub" in (messages.footer as unknown as Record<string, unknown>),
+    ).toBe(false);
+    expect(
+      "quickstartGuide" in
+        (messages.home as unknown as Record<string, unknown>),
+    ).toBe(false);
+  });
+
   it("canonicalizes BCP 47 and Rails-style locale codes", () => {
     expect(canonicalizeLocale("zh_cn")).toBe("zh-CN");
     expect(canonicalizeLocale("sr_latn_rs")).toBe("sr-Latn-RS");
