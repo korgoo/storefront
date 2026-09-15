@@ -58,6 +58,30 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
+  // `src/proxy.ts` normally redirects the bare site root to
+  // `/{country}/{locale}` (see HAS_COUNTRY_LOCALE there) — but with `basePath`
+  // set, that redirect doesn't fire for the exact basePath root: any path
+  // with a segment after it (`/store/x`) still redirects correctly, only the
+  // literal `/store` 404s. Cover that one case with a static redirect here,
+  // gated on NEXT_BASE_PATH so production — which never sets it, and where
+  // the proxy already handles "/" fine — is unaffected.
+  ...(process.env.NEXT_BASE_PATH
+    ? {
+        async redirects() {
+          const country = (
+            process.env.NEXT_PUBLIC_DEFAULT_COUNTRY || "us"
+          ).toLowerCase();
+          const locale = process.env.NEXT_PUBLIC_DEFAULT_LOCALE || "en";
+          return [
+            {
+              source: "/",
+              destination: `/${country}/${locale}`,
+              permanent: false,
+            },
+          ];
+        },
+      }
+    : {}),
   cacheComponents: true,
   cacheLife: {
     tenMinutes: {
