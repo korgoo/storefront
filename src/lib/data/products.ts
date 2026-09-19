@@ -1,6 +1,11 @@
 "use server";
 
-import type { ProductListParams } from "@spree/sdk";
+import type {
+  PaginatedResponse,
+  Product,
+  ProductFiltersResponse,
+  ProductListParams,
+} from "@spree/sdk";
 import { cacheLife, cacheTag } from "next/cache";
 import {
   cacheTagSuffix,
@@ -8,8 +13,31 @@ import {
   getAccessToken,
   getClientForSurface,
   getLocaleOptions,
+  SpreeBuildOfflineError,
   type Surface,
 } from "@/lib/spree";
+
+const EMPTY_PAGINATED_RESPONSE: PaginatedResponse<Product> = {
+  data: [],
+  meta: {
+    page: 1,
+    limit: 0,
+    count: 0,
+    pages: 0,
+    from: 0,
+    to: 0,
+    in: 0,
+    previous: null,
+    next: null,
+  },
+};
+
+const EMPTY_PRODUCT_FILTERS: ProductFiltersResponse = {
+  filters: [],
+  sort_options: [],
+  default_sort: "",
+  total_count: 0,
+};
 
 /**
  * Cached product list fetch. Cache key is derived from all function
@@ -33,13 +61,19 @@ export async function cachedListProducts(
   "use cache: remote";
   cacheLife("tenMinutes");
   cacheTag(`products${cacheTagSuffix(surface)}`);
-  return getClientForSurface(surface).products.list(params, {
-    ...options,
-    // Wholesale catalog requires the customer JWT — the channel is gated.
-    ...(surface === "wholesale" && userToken
-      ? { token: userToken }
-      : undefined),
-  });
+  try {
+    return await getClientForSurface(surface).products.list(params, {
+      ...options,
+      // Wholesale catalog requires the customer JWT — the channel is gated.
+      ...(surface === "wholesale" && userToken
+        ? { token: userToken }
+        : undefined),
+    });
+  } catch (error) {
+    if (error instanceof SpreeBuildOfflineError)
+      return EMPTY_PAGINATED_RESPONSE;
+    throw error;
+  }
 }
 
 export async function getProducts(
@@ -111,12 +145,17 @@ async function cachedGetProductFilters(
   "use cache: remote";
   cacheLife("tenMinutes");
   cacheTag(`product-filters${cacheTagSuffix(surface)}`);
-  return getClientForSurface(surface).products.filters(params, {
-    ...options,
-    ...(surface === "wholesale" && userToken
-      ? { token: userToken }
-      : undefined),
-  });
+  try {
+    return await getClientForSurface(surface).products.filters(params, {
+      ...options,
+      ...(surface === "wholesale" && userToken
+        ? { token: userToken }
+        : undefined),
+    });
+  } catch (error) {
+    if (error instanceof SpreeBuildOfflineError) return EMPTY_PRODUCT_FILTERS;
+    throw error;
+  }
 }
 
 export async function getProductFilters(

@@ -1,8 +1,33 @@
 "use server";
 
-import type { CategoryListParams, ProductListParams } from "@spree/sdk";
+import type {
+  Category,
+  CategoryListParams,
+  PaginatedResponse,
+  ProductListParams,
+} from "@spree/sdk";
 import { cacheLife, cacheTag } from "next/cache";
-import { getAccessToken, getClient, getLocaleOptions } from "@/lib/spree";
+import {
+  getAccessToken,
+  getClient,
+  getLocaleOptions,
+  SpreeBuildOfflineError,
+} from "@/lib/spree";
+
+const EMPTY_CATEGORIES_RESPONSE: PaginatedResponse<Category> = {
+  data: [],
+  meta: {
+    page: 1,
+    limit: 0,
+    count: 0,
+    pages: 0,
+    from: 0,
+    to: 0,
+    in: 0,
+    previous: null,
+    next: null,
+  },
+};
 
 async function cachedListCategories(
   params: CategoryListParams | undefined,
@@ -11,7 +36,13 @@ async function cachedListCategories(
   "use cache: remote";
   cacheLife("hours");
   cacheTag("categories");
-  return getClient().categories.list(params, options);
+  try {
+    return await getClient().categories.list(params, options);
+  } catch (error) {
+    if (error instanceof SpreeBuildOfflineError)
+      return EMPTY_CATEGORIES_RESPONSE;
+    throw error;
+  }
 }
 
 export async function getCategories(
