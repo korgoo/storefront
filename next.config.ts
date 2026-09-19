@@ -37,9 +37,17 @@ function spreeImagePatterns(): RemotePattern[] {
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  // Set only in local dev (frontend/vite.config.ts proxies `/store` to this
+  // app on that assumption). Left unset in production so store.korgoo.kg
+  // serves from `/` — the nginx vhost's `/_next/static/` location block is
+  // written for that, and changing it would break asset URLs.
+  basePath: process.env.NEXT_BASE_PATH || undefined,
   allowedDevOrigins: ["shop.lvh.me", "*.trycloudflare.com", "192.168.33.13"],
   env: {
     NEXT_PUBLIC_SENTRY_DSN: process.env.SENTRY_DSN || "",
+    // Mirrors `basePath` above for client code that references a `public/`
+    // asset by literal path — see src/lib/store.ts's getAssetBasePath().
+    NEXT_PUBLIC_BASE_PATH: process.env.NEXT_BASE_PATH || "",
   },
   transpilePackages: ["@spree/sdk"],
   reactCompiler: true,
@@ -53,6 +61,30 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
+  // `src/proxy.ts` normally redirects the bare site root to
+  // `/{country}/{locale}` (see HAS_COUNTRY_LOCALE there) — but with `basePath`
+  // set, that redirect doesn't fire for the exact basePath root: any path
+  // with a segment after it (`/store/x`) still redirects correctly, only the
+  // literal `/store` 404s. Cover that one case with a static redirect here,
+  // gated on NEXT_BASE_PATH so production — which never sets it, and where
+  // the proxy already handles "/" fine — is unaffected.
+  ...(process.env.NEXT_BASE_PATH
+    ? {
+        async redirects() {
+          const country = (
+            process.env.NEXT_PUBLIC_DEFAULT_COUNTRY || "us"
+          ).toLowerCase();
+          const locale = process.env.NEXT_PUBLIC_DEFAULT_LOCALE || "en";
+          return [
+            {
+              source: "/",
+              destination: `/${country}/${locale}`,
+              permanent: false,
+            },
+          ];
+        },
+      }
+    : {}),
   cacheComponents: true,
   cacheLife: {
     tenMinutes: {

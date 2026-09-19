@@ -12,7 +12,7 @@ import {
   useCheckout,
 } from "@/contexts/CheckoutContext";
 import { POLICY_LINKS } from "@/lib/constants/policies";
-import { getStoreName } from "@/lib/store";
+import { getAssetBasePath, getStoreName } from "@/lib/store";
 import { extractBasePath } from "@/lib/utils/path";
 
 const storeName = getStoreName();
@@ -26,7 +26,7 @@ function CheckoutHeader() {
     <header className="flex items-center justify-between h-16">
       <Link href={basePath || "/"} className="flex items-center space-x-2">
         <Image
-          src="/spree.png"
+          src={`${getAssetBasePath()}/korgoo-logo.svg`}
           alt={storeName}
           width={90}
           height={32}
