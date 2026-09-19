@@ -17,6 +17,7 @@ export {
   getWholesaleClient,
   initSpreeNext,
   isWholesaleEnabled,
+  SpreeBuildOfflineError,
 } from "./config";
 // Cookie management
 export {

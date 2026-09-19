@@ -7,6 +7,40 @@ let _config: SpreeNextConfig | null = null;
 let _wholesaleClient: Client | null = null;
 
 /**
+ * Thrown by every call on the client `getClient()` returns when
+ * `SPREE_BUILD_OFFLINE` is set. Cached data functions that can run during
+ * `next build` (see markets.ts, products.ts, categories.ts) catch this
+ * specific error to degrade to an empty payload instead of aborting the
+ * export — a real outage throws a different error and must still propagate.
+ */
+export class SpreeBuildOfflineError extends Error {
+  constructor() {
+    super("Spree API call skipped: SPREE_BUILD_OFFLINE is set for this build.");
+    this.name = "SpreeBuildOfflineError";
+  }
+}
+
+/**
+ * A client stand-in whose every method call rejects with
+ * {@link SpreeBuildOfflineError}, at any depth (`client.markets.list(...)`,
+ * `client.products.get(...)`, etc.). Gated on an explicit env var, never on
+ * `process.env.CI` or `NODE_ENV` — a silent degradation could fire at
+ * runtime and serve an empty storefront.
+ */
+function createBuildOfflineClient(): Client {
+  const handler: ProxyHandler<() => void> = {
+    get(_target, prop) {
+      if (typeof prop === "symbol" || prop === "then") return undefined;
+      return new Proxy(() => {}, handler);
+    },
+    apply() {
+      return Promise.reject(new SpreeBuildOfflineError());
+    },
+  };
+  return new Proxy(() => {}, handler) as unknown as Client;
+}
+
+/**
  * Initialize the Spree Next.js integration.
  * Call this once in your app (e.g., in `lib/storefront.ts`).
  * If not called, the client will auto-initialize from SPREE_API_URL and SPREE_PUBLISHABLE_KEY env vars.
@@ -23,6 +57,9 @@ export function initSpreeNext(config: SpreeNextConfig): void {
  * Get the Client instance. Auto-initializes from env vars if needed.
  */
 export function getClient(): Client {
+  if (process.env.SPREE_BUILD_OFFLINE) {
+    return createBuildOfflineClient();
+  }
   if (!_client) {
     const baseUrl = process.env.SPREE_API_URL;
     const publishableKey = process.env.SPREE_PUBLISHABLE_KEY;
@@ -81,6 +118,9 @@ export function isWholesaleEnabled(): boolean {
  * selects the channel); when unset it falls back to the DTC publishable key.
  */
 export function getWholesaleClient(): Client {
+  if (process.env.SPREE_BUILD_OFFLINE) {
+    return createBuildOfflineClient();
+  }
   if (_wholesaleClient) return _wholesaleClient;
 
   const channel = getWholesaleChannelCode();

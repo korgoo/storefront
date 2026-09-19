@@ -1,37 +1,56 @@
 "use server";
 
-import type { Market } from "@spree/sdk";
+import type { Country, Market } from "@spree/sdk";
 import { cacheLife, cacheTag } from "next/cache";
-import { getClient, getLocaleOptions } from "@/lib/spree";
+import {
+  getClient,
+  getLocaleOptions,
+  SpreeBuildOfflineError,
+} from "@/lib/spree";
 
 async function cachedListMarkets(options: {
   locale?: string;
   country?: string;
-}) {
+}): Promise<{ data: Market[] }> {
   "use cache: remote";
   cacheLife("hours");
   cacheTag("markets");
-  return getClient().markets.list(options);
+  try {
+    return await getClient().markets.list(options);
+  } catch (error) {
+    if (error instanceof SpreeBuildOfflineError) return { data: [] };
+    throw error;
+  }
 }
 
 async function cachedResolveMarket(
   country: string,
   options: { locale?: string; country?: string },
-) {
+): Promise<Market | null> {
   "use cache: remote";
   cacheLife("hours");
   cacheTag("resolved-market");
-  return getClient().markets.resolve(country, options);
+  try {
+    return await getClient().markets.resolve(country, options);
+  } catch (error) {
+    if (error instanceof SpreeBuildOfflineError) return null;
+    throw error;
+  }
 }
 
 async function cachedListMarketCountries(
   marketId: string,
   options: { locale?: string; country?: string },
-) {
+): Promise<{ data: Country[] }> {
   "use cache: remote";
   cacheLife("hours");
   cacheTag("market-countries");
-  return getClient().markets.countries.list(marketId, options);
+  try {
+    return await getClient().markets.countries.list(marketId, options);
+  } catch (error) {
+    if (error instanceof SpreeBuildOfflineError) return { data: [] };
+    throw error;
+  }
 }
 
 export async function getMarkets(options?: {
