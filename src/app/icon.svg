@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Щит и тундук</title>
+  <desc id="desc">Терракотовый щит с белым силуэтом тундука на прозрачном фоне.</desc>
+  <g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+    <path fill="#AD6245" stroke-width="4" d="M32 6 54 13v19c0 12-8 19-22 27C18 51 10 44 10 32V13z"/>
+    <path stroke-width="4" d="M17 32c0-9 6-15 15-15s15 6 15 15c0 4-6 7-15 7s-15-3-15-7z"/>
+    <path stroke-width="3.5" d="M22 22c8 0 14 6 14 16m6-16c-8 0-14 6-14 16"/>
+  </g>
+  <path fill="#fff" d="M24.5 43h5v5h-5zm10 0h5v5h-5zm-5 5h5v5h-5z"/>
+</svg>
