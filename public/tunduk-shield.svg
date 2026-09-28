@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none" role="img" aria-labelledby="title description">
+  <title id="title">Щит и купол юрты</title>
+  <desc id="description">Белый щит, купол тундука с перекрещенными линиями и парный орнамент рогов на терракотовом фоне.</desc>
+  <path fill="#AD6245" d="M0 0h512v512H0z"/>
+  <path d="M256 51 421 105v139c0 91-55 154-165 216C146 398 91 335 91 244V105z"
+        stroke="#FFFFFF" stroke-width="24" stroke-linejoin="round"/>
+  <path d="M145 250c0-65 50-111 111-111s111 46 111 111c0 30-46 53-111 53s-111-23-111-53z"
+        stroke="#FFFFFF" stroke-width="21" stroke-linejoin="round"/>
+  <path d="M180 180c52 0 105 45 105 110"
+        stroke="#FFFFFF" stroke-width="19" stroke-linecap="round"/>
+  <path d="M332 180c-52 0-105 45-105 110"
+        stroke="#FFFFFF" stroke-width="19" stroke-linecap="round"/>
+  <path d="M256 387c-2-26-14-49-35-49-14 0-24 9-24 22 0 12 9 18 19 15m40 12c2-26 14-49 35-49 14 0 24 9 24 22 0 12-9 18-19 15"
+        stroke="#FFFFFF" stroke-width="19" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

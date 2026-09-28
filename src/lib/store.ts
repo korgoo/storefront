@@ -35,7 +35,7 @@ export function getStoreUrl(): string | undefined {
 
 /**
  * Get the basePath prefix for `public/` assets referenced directly by path
- * (`<Image src="/korgoo-logo.svg">`, plain `<img>` tags). Next only rewrites its own
+ * (`<Image src="/tunduk-shield.svg">`, plain `<img>` tags). Next only rewrites its own
  * routes and the `/_next/*` asset tree onto `basePath` automatically — a
  * literal path in `src` is left as-is, so it 404s once `NEXT_BASE_PATH` is
  * set (local dev, see next.config.ts). Empty in production, where basePath is
