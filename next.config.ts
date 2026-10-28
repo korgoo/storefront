@@ -86,6 +86,8 @@ const nextConfig: NextConfig = {
       }
     : {}),
   cacheComponents: true,
+  // Prefetch behaviour as on 16.2; turning it on is a separate change.
+  partialPrefetching: false,
   cacheLife: {
     tenMinutes: {
       stale: 300, // 5 minutes client stale window

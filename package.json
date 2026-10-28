@@ -33,12 +33,12 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.577.0",
-    "next": "^16",
+    "next": "^16.4.3",
     "next-intl": "^4.9.2",
     "next-themes": "^0.4.6",
     "radix-ui": "^1.4.3",
-    "react": "^19",
-    "react-dom": "^19",
+    "react": "^19.2.9",
+    "react-dom": "^19.2.9",
     "react-email": "^6.1.4",
     "react-svg-credit-card-payment-icons": "^5.1.2",
     "resend": "^6.9.4",
@@ -52,7 +52,7 @@
     "minimatch": "^10.2.1",
     "postcss": "^8.5.10",
     "mute-stream": "^3.0.0",
-    "sharp": "^0.35.3",
+    "sharp": "^0.35.5",
     "@hono/node-server": "^2.0.5"
   },
   "pnpm": {
@@ -70,7 +70,7 @@
       "postcss": "^8.5.28",
       "qs": "^6.16.0",
       "shadcn>postcss-selector-parser": "^7.1.6",
-      "sharp": "^0.35.3",
+      "sharp": "^0.35.5",
       "socket.io-parser": "^4.2.7",
       "undici": "^7.29.1"
     },
