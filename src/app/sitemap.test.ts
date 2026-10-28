@@ -49,6 +49,10 @@ vi.mock("@/lib/store", () => ({
   getStoreUrl: () => "https://store.example",
 }));
 
+vi.mock("next/server", () => ({
+  connection: async () => {},
+}));
+
 function marketCountries(...isos: string[]) {
   return [
     {
