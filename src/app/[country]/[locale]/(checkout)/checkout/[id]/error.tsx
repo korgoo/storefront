@@ -17,9 +17,7 @@ export default function CheckoutError({
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
-      <h1 className="text-xl font-bold text-gray-900">
-        Something went wrong
-      </h1>
+      <h1 className="text-xl font-bold text-gray-900">Something went wrong</h1>
       <p className="text-gray-600">
         We couldn&apos;t load checkout. Please try again.
       </p>
